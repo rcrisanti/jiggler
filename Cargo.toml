@@ -4,6 +4,10 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Ryan Crisanti <rcrisanti@me.com>"]
 description = "A simple CLI tool to occasionally jiggle your mouse"
+readme = "README.md"
+repository = "https://github.com/rcrisanti/jiggler/"
+homepage = "https://github.com/rcrisanti/jiggler/"
+license-file = "LICENSE"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
