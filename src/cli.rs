@@ -11,7 +11,7 @@ pub struct Args {
     #[arg(short, long, default_value = "0:seconds")]
     pub start: CustomDuration,
 
-    /// How long to run, measured from the first jiggle
+    /// Duration until end, measured from the first jiggle
     #[arg(short, long, default_value = "max")]
     pub end: CustomDuration,
 
