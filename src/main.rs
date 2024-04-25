@@ -1,29 +1,20 @@
-mod cli;
-mod error;
-mod jiggler;
-
-use anyhow::Result;
 use clap::Parser;
-use tracing_subscriber::FmtSubscriber;
+use enigo::Settings;
 
-use cli::Args;
-use jiggler::{JiggleConfig, Jiggler};
+use jiggler::cli::Args;
+use jiggler::{JiggleConfig, Jiggler, JigglerResult};
 
-fn main() -> Result<()> {
+fn main() -> JigglerResult<()> {
+    env_logger::init();
     let cli = Args::parse();
-
-    let subscriber = FmtSubscriber::builder()
-        .with_max_level(cli.log_level)
-        .finish();
-
-    tracing::subscriber::set_global_default(subscriber)?;
-
-    let jiggler = Jiggler::new(
+    let config = JiggleConfig::new(cli.jiggle_sleep.into(), cli.jiggle_reps, cli.jiggle_size);
+    let mut jiggler = Jiggler::new(
         cli.start.into(),
-        cli.end.into(),
+        cli.end.map(|end| end.into()),
         cli.wait.into(),
-        JiggleConfig::new(cli.jiggle_sleep.into(), cli.jiggle_reps, cli.jiggle_size),
-    );
+        config,
+        &Settings::default(),
+    )?;
     jiggler.run()?;
     Ok(())
 }

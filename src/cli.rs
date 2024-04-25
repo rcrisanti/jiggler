@@ -12,17 +12,16 @@ pub struct Args {
     pub start: CustomDuration,
 
     /// Duration until end, measured from the first jiggle
-    #[arg(short, long, default_value = "max")]
-    pub end: CustomDuration,
+    #[arg(short, long, default_value = None)]
+    pub end: Option<CustomDuration>,
 
     /// The time to wait in between jiggles
     #[arg(short, long, default_value = "1:minute")]
     pub wait: CustomDuration,
 
-    /// The max level of log messages to display
-    #[arg(short, long, default_value_t = tracing::Level::INFO)]
-    pub log_level: tracing::Level,
-
+    // /// The max level of log messages to display
+    // #[arg(short, long, default_value_t = tracing::Level::INFO)]
+    // pub log_level: tracing::Level,
     /// The time to sleep in between repetitions of a single jiggle
     #[arg(long, default_value = "70:ms")]
     pub jiggle_sleep: CustomDuration,
@@ -33,7 +32,7 @@ pub struct Args {
 
     /// The number of pixels to move in a single jiggle
     #[arg(long, default_value_t = 10)]
-    pub jiggle_size: u16,
+    pub jiggle_size: i32,
 }
 
 enum DurationUnit {
@@ -103,8 +102,8 @@ impl FromStr for CustomDuration {
     }
 }
 
-impl Into<Duration> for CustomDuration {
-    fn into(self) -> Duration {
-        self.duration
+impl From<CustomDuration> for Duration {
+    fn from(value: CustomDuration) -> Self {
+        value.duration
     }
 }
